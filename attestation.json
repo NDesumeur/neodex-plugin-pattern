@@ -1,0 +1,9 @@
+{
+  "pluginId": "neodex.pattern",
+  "repo": "NDesumeur/neodex-plugin-pattern",
+  "version": "1.0.0",
+  "sha256": "d8d8f80f2a04af8eab64ad70bb3763497b6a693334d30a0bbbc40baac64195c5",
+  "approvedAt": "2026-11-12T06:35:37.875Z",
+  "neobase": ">=4.0.0",
+  "signature": "IxPDjfv09Gy3iHtpM/g3mFmRJlcpieENb5MOb4oti7QMpQoCowvNDezkXU3MQbE6mnWdvT1szGL4Mt/Gq3QSDA=="
+}
