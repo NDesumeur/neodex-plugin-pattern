@@ -26,3 +26,5 @@ The **Replace with** field accepts `$1`, `$<name>`, `$&` (the whole match): the 
 ## My patterns
 
 Keep your patterns with a name, their flags, their test text and their replacement (100 at most). They live in the plugin's folder. Permission: `storage` only.
+
+

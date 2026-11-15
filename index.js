@@ -1,37 +1,38 @@
 // Pattern : écrire une expression régulière, la voir trouver ses correspondances en direct, comprendre chaque morceau, remplacer, et garder ses motifs.
 // La recherche tourne dans un Worker arrêté au bout d'une seconde : un motif qui s'emballe (retour arrière catastrophique) ne fige jamais NeoDex.
 const CSS = `
-.paGrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px}
+.paGrid{display:grid;grid-template-columns:minmax(0,1fr) clamp(300px,24vw,420px);gap:16px}
 @media (max-width:900px){.paGrid{grid-template-columns:minmax(0,1fr)}}
 .paRe{display:flex;align-items:center;gap:6px;font:18px monospace}
 .paRe .f{flex:1;font:17px monospace;min-width:0}
 .paRe .f.bad{outline:2px solid #e05a5a}
 .paSlash{color:var(--muted);font-size:22px}
 .paFlags{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
-.paFlags .btn{min-width:40px;font-family:monospace}
-.paText{width:100%;min-height:150px;box-sizing:border-box;font:15px monospace}
-.paView{font:15px monospace;white-space:pre-wrap;word-break:break-word;background:var(--bg0);border:2px solid var(--line);padding:10px;min-height:60px;max-height:320px;overflow:auto;color:var(--lilac)}
+.paFlags .btn{min-width:44px;font-family:monospace;font-size:16px}
+.paText{width:100%;min-height:clamp(150px,20vh,320px);box-sizing:border-box;font:16px monospace}
+.paView{font:16px monospace;white-space:pre-wrap;word-break:break-word;background:var(--bg0);border:2px solid var(--line);padding:10px;min-height:60px;max-height:max(320px,calc(100vh - 560px));overflow:auto;color:var(--lilac)}
 .paView mark{color:#000;padding:0;border-bottom:2px solid #000}
 .paView mark.m0{background:#ffd34f}.paView mark.m1{background:#7fe0ff}
 .paView mark.empty{display:inline-block;width:2px;height:1em;background:#ff4fb0;vertical-align:-2px}
-.paMsg{font-size:13px;margin:6px 0;color:var(--muted)}
+.paMsg{font-size:15px;margin:6px 0;color:var(--muted)}
 .paMsg.err{color:#ff7a7a}
 .paList{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow:auto}
-.paMatch{border:2px solid var(--line);padding:6px 8px;font:13px monospace;background:var(--bg0)}
+.paMatch{border:2px solid var(--line);padding:7px 9px;font:15px monospace;background:var(--bg0)}
 .paMatch b{color:#fff}
 .paMatch .g{color:var(--lilac);margin-left:12px;display:block}
-.paExplain{display:flex;flex-direction:column;gap:3px;font-size:13px}
-.paTok{display:grid;grid-template-columns:90px 1fr;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06)}
-.paTok code{font:14px monospace;color:#ffd34f;word-break:break-all}
+.paExplain{display:flex;flex-direction:column;gap:3px;font-size:15px}
+.paTok{display:grid;grid-template-columns:110px 1fr;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.paTok code{font:16px monospace;color:#ffd34f;word-break:break-all}
 .paTok.depth1 code{padding-left:10px}.paTok.depth2 code{padding-left:20px}.paTok.depth3 code{padding-left:30px}
 .paCheat{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.paCheat button{text-align:left;font:12px monospace;padding:5px 6px;border:2px solid var(--line);background:var(--bg0);color:var(--lilac);cursor:var(--cp,pointer)}
+.paCheat button{text-align:left;font:14px monospace;padding:6px 8px;border:2px solid var(--line);background:var(--bg0);color:var(--lilac);cursor:var(--cp,pointer)}
 .paCheat button b{color:#ffd34f;margin-right:6px}
 .paCheat button:hover{border-color:var(--magenta)}
 .paSaved{display:flex;flex-direction:column;gap:4px}
 .paSaved .row{display:flex;gap:4px}
 .paSaved .row .btn:first-child{flex:1;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.paTabs{display:flex;gap:6px;margin:10px 0 6px}
+.paTabs{display:flex;gap:6px;margin:10px 0 6px;flex-wrap:wrap}.paTabs .btn{width:auto;margin:0;flex:1 1 auto;padding-left:10px;padding-right:10px}
+.paGrid>*{min-width:0}
 `;
 const EXAMPLES = [
   ['Adresse e-mail', '[\\w.+-]+@[\\w-]+\\.[\\w.-]+', 'gi', 'Écris à contact@exemple.fr ou à nolan.test+neo@mail.co.uk, mais pas à @rien.'],
@@ -118,7 +119,7 @@ export default async function (ctx) {
   ctx.onClose?.(() => { worker?.terminate(); worker = null; });
 
   view.innerHTML = '';
-  const wrap = el('div', 'appWrap'), head = el('div', 'agHead'); head.append(el('span', 'label', 'Pattern · expressions régulières'));
+  const wrap = el('div', 'appWrap wide'), head = el('div', 'agHead'); head.append(el('span', 'label', 'Pattern · expressions régulières'));
   const grid = el('div', 'paGrid'), main = el('div'), side = el('div');
   const reRow = el('div', 'paRe'), re = el('input', 'f'), flagsEl = el('div', 'paFlags'), msg = el('div', 'paMsg');
   re.id = 'pa_re'; re.spellcheck = false; re.value = st.src; re.placeholder = 'ton motif, par exemple \\d+';

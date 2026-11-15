@@ -26,3 +26,5 @@ Le champ **Remplacer par** accepte `$1`, `$<nom>`, `$&` (toute la correspondance
 ## Mes motifs
 
 Garde tes motifs avec un nom, leurs drapeaux, leur texte d'essai et leur remplacement (100 au plus). Ils sont dans le dossier du plugin. Autorisation : `storage` seulement.
+
+

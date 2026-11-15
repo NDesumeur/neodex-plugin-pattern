@@ -16,5 +16,7 @@ module.exports = async ({ pj, sleep }) => {
   if (!/arrêtée/.test(msg)) throw new Error('le motif qui s\'emballe n\'est pas arrêté : ' + msg);
   await type('pa_text', 'Le 14/07/1998 et le 03/12/2026, pas le 32/13/2020.');
   await type('pa_re', String.raw`(?<jour>0[1-9]|[12]\d|3[01])/(?<mois>0[1-9]|1[0-2])/(?<annee>\d{4})`); await sleep(600);
+  const over = await pj(`[...document.querySelectorAll('.appWrap *')].filter(e => e.getBoundingClientRect().right > innerWidth + 1).length`);
+  if (over) throw new Error(over + ' élément(s) débordent à droite');
   return '2 dates trouvées, remplacement, explication et arrêt d\'un motif qui s\'emballe ok';
 };
